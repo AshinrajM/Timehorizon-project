@@ -1,0 +1,36 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}Home Page{% endblock %}
+{% block content%}
+<div class="container">
+    <div class="text-center">
+        <div class="center">
+            <div class="mb-4 mt-5">
+                <img src="{% static 'user/img/orderusccess.gif' %}" alt="rsyt">
+            </div>
+            {% if order_number %}
+                
+            <div class="mb-4">
+                <p
+                    style="font-size:2.5rem;font-weight:900;font-family: Arial, Helvetica, sans-serif;color: rgb(47, 221, 114);">
+                    ORDER SUCCESSFULL
+                </p>
+                <p
+                    style="font-size: large;font-weight:900;font-family: Arial, Helvetica, sans-serif;color: rgb(47, 221, 114);">
+                    ORDER NUMBER &nbsp;:&nbsp;{{order_number}}
+                </p>
+                <p>(Thank you for your order and we will grt back to you with the product within the expected delivery
+                    date)
+                </p>
+            </div>
+            {% endif %}
+
+        </div>
+        <a href="{% url 'shop' %}">
+            <button class="site-btn">Continue shopping</button>
+        </a>
+    </div>
+</div>
+
+</div>
+{% endblock %}

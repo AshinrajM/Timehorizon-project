@@ -1,0 +1,56 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}dashboard-product{% endblock %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Edit Category </h3>
+            <!-- <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Add Products</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Products</li>
+        </ol>
+      </nav> -->
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    {% if categories %}
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Add Product</h4> -->
+                        <!-- <p class="card-description"> Basic form elements </p> -->
+                        <form class="forms-sample" method="post" enctype="multipart/form-data"
+                            action="{% url 'admin_update_category' categories.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleInputName1">Name of Category</label>
+                                <input type="text" class="form-control" id="exampleInputName1" name="name"
+                                    value="{{categories.name}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleTextarea1">Description</label>
+                                <textarea class="form-control" id="exampleTextarea1" name="description" rows="10"
+                                    value="" style="font-size: medium ;">{{categories.description}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Image Upload</label>
+                                <div class="input-group col-xs-12">
+                                    <img style="width: 5rem;height: auto;" src="{{categories.image.url}}">
+                                    <input type="file" class="form-control file-upload-info" name="image"
+                                        placeholder="Upload Image">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Save</button>
+                            <button class="btn btn-danger mr-2"><a style="text-decoration: none; color: white;"
+                                    href="{% url 'admin_product' %}">Cancel</a></button>
+                            <!-- <button class="btn btn-primary">Add another product</button> -->
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

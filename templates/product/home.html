@@ -1,0 +1,278 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}Home Page{% endblock %}
+{% block content%}
+<!-- Categories Section Begin -->
+<section class="categories">
+    <div class="container-fluid">
+        <div class="row">
+            {% if messages %}
+            {% for message in messages %}
+            <div id="messages" class="alert alert-dismissible">
+                <style>
+                    /* Increase the font size and width of the toaster */
+                    .jq-toast-wrap {
+                        font-size: 25px;
+                        /* Adjust the font size as needed */
+                        width: 500px;
+                        /* Adjust the width as needed */
+                    }
+                </style>
+                <script>
+                    $.toast({
+                        heading: '{{ message.tags }}',
+                        text: '{{ message }}',
+                        icon: '{{ message.tags }}',
+                        loader: true,
+                        loaderBg: '#f96868',
+                        position: 'top-center',
+                        hideAfter: 5000,
+                        stack: 6
+                    });
+                </script>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+            {% if banner1 %}
+                
+            <div class="col-lg-6 p-0 text-top">
+                <div class="categories__item categories__large__item set-bg" data-setbg="{{banner1.image.url}}">
+                    <!-- <h2 style="font-weight: 700; font-family: 'serif';margin-bottom: 30rem;">
+                        Welcome To The Page of Collections </h2> -->
+                    <!-- <div class="categories__text"> -->
+
+                    <!-- <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
+                                edolore magna aliquapendisse ultrices gravida.</p> -->
+                    <!-- <a href="#">Shop now</a> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-lg-6">
+                <div class="row">
+                    {% if category %}
+                    {% for i in category %}
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <form action="{% url 'shop_by_category' i.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-transparent w-100 border-0 p-0">
+                                <div class="categories__item set-bg" data-setbg="{{i.image.url}}">
+                                    <div class="categories__text">
+                                        <h5 style="color: rgba(255, 255, 255, 0.973);">{{i.name}}</h5>
+                                        <hr style="color: white;">
+                                        <!-- <p>358 items</p> -->
+                                        <p style="color: rgba(255, 255, 255, 0.87);" href="">Shop
+                                            now</p>
+                                    </div>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Categories Section End -->
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="section-title">
+                    <h4>New product</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row property__gallery">
+            {% if product %}
+                
+            {% for i in product %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="{{i.image.url}}">
+                        <div class="label new">New</div>
+                        <ul class="product__hover">
+                            <li><a href="{{i.image.url}}" class="image-popup"><span class="arrow_expand"></span></a>
+                            </li>
+                            <li><a href="{% url 'add_wishlist' i.id  %}"><span class="icon_heart_alt"></span></a></li>
+                            {% if user.is_authenticated %}
+                            <li><a href="{% url 'add_cart' i.id  %}"><span class="icon_cart_alt"></span></a></li>
+                            {% else %}
+                            <li><a href="{% url 'signin' %}"><span class="icon_cart_alt"></span></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="{% url 'product_detail' i.id %}">{{i.name}}</a></h6>
+                        <div class="product__price"><span class="text-muted"
+                                style="color: red !important;">₹&nbsp;{{i.original_price}}</span></div>
+                        <div class="product__price" style=" font-size: large;color: green;">₹&nbsp;{{i.selling_price}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
+
+<!-- Banner Section Begin -->
+{% if banner2 %}
+<section class="banner set-bg" data-setbg="{{banner2.image.url}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-8 m-auto">
+                <div class="banner__slider owl-carousel">
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span style="color: azure;">Collection of international Standards</span>
+                            <h1 style="color: azure;">The latest Trends</h1>
+                            <a href="{% url 'shop'  %}" style="color: azure;">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Banner Section End -->
+<!-- -------- copied product part as latest trends-->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="section-title">
+                    <h4>Popular Brands</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row property__gallery">
+            {% if brand %}
+            {% for i in brand %}
+            <div class="col-lg-4 col-md-4 col-sm-6 mix women">
+                <a href="{% url 'shop_by_brand' i.id %}">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="{{i.image.url}}">
+
+                            <!-- <ul class="product__hover">
+                            <li><a href="{{i.img.url}}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="#"><span class="icon_cart_alt"></span></a></li>
+                        </ul> -->
+                        </div>
+                        <div class="product__item__text">
+                            <h6>{{i.name}}</h6>
+                            <!-- <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div> -->
+                            <!-- <div class="product__price">$ 59.0</div> -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+<!-- Trend Section End -->
+
+<!-- Discount Section Begin -->
+{% if banner3 %}
+<section class="discount">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 p-0">
+                <div class="discount__pic">
+                    <img style="height: 35vw;" src="{{banner3.image.url}}" alt="">
+                </div>
+            </div>
+            <!-- <div class="col-lg-6 p-0">
+                <div class="discount__text">
+                    <div class="discount__text__title">
+                        <span>Discount</span>
+                        <h2>Summer 2019</h2>
+                        <h5><span>Sale</span> 50%</h5>
+                    </div>
+                    <div class="discount__countdown" id="countdown-time">
+                        <div class="countdown__item">
+                            <span>22</span>
+                            <p>Days</p>
+                        </div>
+                        <div class="countdown__item">
+                            <span>18</span>
+                            <p>Hour</p>
+                        </div>
+                        <div class="countdown__item">
+                            <span>46</span>
+                            <p>Min</p>
+                        </div>
+                        <div class="countdown__item">
+                            <span>05</span>
+                            <p>Sec</p>
+                        </div>
+                    </div>
+                    <a href="#">Shop now</a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Discount Section End -->
+
+<!-- Services Section Begin -->
+<section class="services spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-car"></i>
+                    <h6>Free Shipping</h6>
+                    <p>For all order over ₹&nbsp;1000</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-money"></i>
+                    <h6>Money Back Guarantee</h6>
+                    <p>If good have Problems</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-support"></i>
+                    <h6>Online Support 24/7</h6>
+                    <p>Dedicated support</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-headphones"></i>
+                    <h6>Payment Secure</h6>
+                    <p>100% secure payment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <hr style="margin-top:2vw ;"> -->
+
+<!-- Services Section End -->
+{% endblock %}

@@ -1,0 +1,218 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}Product details {% endblock %}
+{% block content%}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links mb-4">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                    <a href="{% url 'shop' %}">Shop</a>
+                    <span>{{products.name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__left product__thumb nice-scroll">
+                        <!-- <a class="pt active" href="#product-1">
+                            <img src="{{product.image.url}}" alt="">
+                        </a> -->
+                        <a class="pt" href="#product-2">
+                            <img src="{{products.image1.url}}" alt="">
+                        </a>
+                        <a class="pt" href="#product-3">
+                            <img src="{{products.image2.url}}" alt="">
+                        </a>
+                        <a class="pt" href="#product-4">
+                            <img src="{{products.image3.url}}" alt="">
+                        </a>
+                    </div>
+                    <div class="product__details__slider__content">
+                        <div class="product__details__pic__slider owl-carousel">
+                            <div class="zoom">
+                                <img id="myimage" data-hash="product-1" class="product__big__img"
+                                    src="{{products.image.url}}" alt="">
+                                <div id="zoom-lens" class="zoom-lens">
+                                </div>
+                            </div>
+                            <img data-hash="product-2" class="product__big__img" src="{{products.image1.url}}" alt="">
+                            <img data-hash="product-3" class="product__big__img" src="{{products.image2.url}}" alt="">
+                            <img data-hash="product-4" class="product__big__img" src="{{products.image3.url}}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                const imageContainer = document.querySelector('.zoom');
+                const imageZoom = document.getElementById('myimage');
+                const zoomLens = document.getElementById('zoom-lens');
+
+                imageContainer.addEventListener('mousemove', moveLens);
+                imageContainer.addEventListener('mouseenter', showLens);
+                imageContainer.addEventListener('mouseleave', hideLens);
+
+                function showLens(event) {
+                    zoomLens.style.display = 'block';
+                }
+
+                function hideLens(event) {
+                    zoomLens.style.display = 'none';
+                    resetImageZoom();
+                }
+
+                function moveLens(event) {
+                    const rect = imageContainer.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    const lensSize = 100; // Adjust the lens size
+                    const zoomFactor = 2; // Adjust the zoom level
+
+                    // Calculate the background position to achieve the zoom effect
+                    const bgX = (x / rect.width) * 100;
+                    const bgY = (y / rect.height) * 100;
+
+                    // Set the lens position
+                    zoomLens.style.left = x - lensSize / 2 + 'px';
+                    zoomLens.style.top = y - lensSize / 2 + 'px';
+
+                    // Update the image transform to achieve the zoom effect
+                    const zoomedScale = zoomFactor;
+                    imageZoom.style.transformOrigin = `${bgX}% ${bgY}%`;
+                    imageZoom.style.transform = `scale(${zoomedScale})`;
+                }
+
+                function resetImageZoom() {
+                    imageZoom.style.transformOrigin = 'center center';
+                    imageZoom.style.transform = 'scale(1)';
+                }
+
+
+            </script>
+
+            <div class="col-lg-5">
+                <div class="product__details__text" style="margin-top:1vw ;">
+                    <h3>{{products.name}}<span>{{products.brand}}</span></h3>
+                    <span style="font-size: small;">{{products.sub}}&nbsp;&nbsp;-</span>
+                    <span>&nbsp;&nbsp;{{products.category}}</span>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <span>( 138 reviews )</span>
+                    </div>
+                    <div class="product__details__price">
+                        {{products.selling_price}}<span>{{products.original_price}}</span>
+                    </div>
+                    <p style="font-weight: 600;color: darkgrey;">Inclusive of all taxes</p>
+                    <p style="font-weight: 600;color: rgb(44, 5, 5);">{{products.description}}</p>
+                    <!-- <p>{{product.description}}</p> -->
+                    <div class="product__details__button">
+                        <!-- <div class="quantity">
+                            <div class="pro-qty">
+                                <input type="text" value="1">
+                            </div>
+                        </div> -->
+                        {% if user.is_authenticated %}
+                        {% if products.quantity > 0 %}
+                        <a href="{% url 'add_cart' products.id  %}" class="cart-btn"><span
+                                class="icon_cart_alt"></span>&nbsp;&nbsp;&nbsp;Add to cart</a>
+                        {% else %}
+                        <span style="font-size: x-large;
+                            color: rgb(212, 48, 48);font-weight: 800;">Out of Stock</span>
+                        {% endif %}
+                        {% else %}
+                        <a href="{% url 'signin' %}" class="cart-btn"><span
+                                class="icon_cart_alt"></span>&nbsp;&nbsp;&nbsp;Add to
+                            cart</a>
+                        {% endif %}
+                        <ul>
+                            <li class="mr-5"><a href="{% url 'add_wishlist' products.id %}"><span
+                                        class="icon_heart_alt">
+                                    </span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <hr>
+            </div>
+            <!-- <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <h6>Description</h6>
+                            <p>{{product.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="related__title">
+                    <h5>RELATED PRODUCTS</h5>
+                </div>
+            </div>
+            {% if related %}
+                
+            {% for i in related %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="{{i.image.url}}">
+                        <!-- <div class="label new">New</div> -->
+                        <ul class="product__hover">
+                            <li><a href="{{i.image.url}}" class="image-popup"><span class="arrow_expand"></span></a>
+                            </li>
+                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="#"><span class="icon_cart_alt"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="{% url 'product_detail' i.id %}">{{i.name}}</a></h6>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="product__price"><span class="text-muted">₹&nbsp;{{i.original_price}}</span>
+                        </div>
+                        <div class="product__price">{{i.selling_price}}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'admin/admin_base.html' %}
+{% load crispy_forms_tags %} <!-- loading the crispy forms -->
+{% load static %}
+{% block title %}dashboard-banner{% endblock %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <div class="search-field d-none d-xl-block">
+                {% if messages %}
+                {% for message in messages %}
+                <div id="messages" class="alert alert-dismissible">
+                    <style>
+                        /* Increase the font size and width of the toaster */
+                        .jq-toast-wrap {
+                            font-size: 25px;
+                            /* Adjust the font size as needed */
+                            width: 500px;
+                            /* Adjust the width as needed */
+                        }
+                    </style>
+                    <script>
+                        $.toast({
+                            heading: '{{ message.tags }}',
+                            text: '{{ message }}',
+                            icon: '{{ message.tags }}',
+                            loader: true,
+                            loaderBg: '#f96868',
+                            position: 'top-center',
+                            hideAfter: 5000,
+                            stack: 6
+                        });
+                    </script>
+                </div>
+                <!-- <div style="color: rgb(58, 247, 10);">
+                    {{ message }}
+                </div> -->
+                {% endfor %}
+                {% endif %}
+            </div>
+            <h3 class="page-title"> Brands </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <!-- <li><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
+                            style="border-radius: 0;">Add
+                            new Brand</button></li> -->
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Striped Table</h4> -->
+                        <!-- <p class="card-description"> Add class <code>.table-striped</code> -->
+                        <!-- </p> -->
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="sortTable">
+                                <thead>
+                                    <tr>
+                                        <th> name </th>
+                                        <th>Banner Image</th>
+                                        <th> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if banners %}
+
+                                    {% for i in banners %}
+                                    <tr>
+                                        <td>
+                                            <h4>{{i.name}}</h2>
+                                        </td>
+                                        <td><img style="width: 10rem;height:10rem;border-radius: 0;"
+                                                src="{{i.image.url}}" alt="dsf"></td>
+                                        <td><button class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop-{{i.id}}">Edit Image</button></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!----- modal edit brand ------>
+            {% if banners %}
+                
+            {% for i in banners %}
+
+            <div class="modal fade" id="staticBackdrop-{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Change banner Image</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'admin_update_banner' i.id %}" enctype="multipart/form-data"
+                                method="post">
+                                {% csrf_token %}
+                                <img style="height: 10rem;width: 10rem; margin-bottom: 2rem;" src="{{i.image.url}}"
+                                    alt="dfs">
+                                <input type="file" name="image" id="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% endblock %}

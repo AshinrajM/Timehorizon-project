@@ -1,0 +1,49 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}dashboard-edit-subcategory{% endblock %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Edit Category </h3>
+            <!-- <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Add Products</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Products</li>
+        </ol>
+      </nav> -->
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    {% if sub_category %}
+
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Add Product</h4> -->
+                        <!-- <p class="card-description"> Basic form elements </p> -->
+                        <form class="forms-sample" method="post"
+                            action="{% url 'admin_update_sub_category' sub_category.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleInputName1">Name of Category</label>
+                                <input type="text" class="form-control" id="exampleInputName1" name="name"
+                                    value="{{sub_category.name}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleTextarea1">Description</label>
+                                <textarea class="form-control" id="exampleTextarea1" name="description" rows="10"
+                                    value="{{sub_category.description}}"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Save</button>
+                            <button class="btn btn-danger mr-2"><a style="text-decoration: none; color: white;"
+                                    href="{% url 'admin_sub_category' %}">Cancel</a></button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

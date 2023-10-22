@@ -1,0 +1,128 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}dashboard-product{% endblock %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Edit Products </h3>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    {% if products %}
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Add Product</h4> -->
+                        <!-- <p class="card-description"> Basic form elements </p> -->
+                        <form class="forms-sample" method="post" enctype="multipart/form-data"
+                            action="{% url 'admin_update_product' products.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleInputName1">Name of product</label>
+                                <input type="text" name="name" class="form-control" id="exampleInputName1"
+                                    value="{{products.name}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail3">Original Price</label>
+                                <input type="number" class="form-control" name="original_price" id="exampleInputEmail3"
+                                    value="{{products.original_price}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword4">Selling_Price</label>
+                                <input type="number" name="selling_price" class="form-control"
+                                    id="exampleInputPassword4" value="{{products.selling_price}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword4">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity"
+                                    value="{{products.quantity}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleTextarea1">Description</label>
+                                <textarea name="description" class="form-control" id="exampleTextarea1" rows="10"
+                                    value="">{{products.description}}</textarea>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label>Image Upload</label>
+                                <div class="input-group col-xs-12">
+                                    <img style="width: 5rem;height: auto;" src="{{products.image.url}}">
+                                    <input type="file" class="form-control file-upload-info" name="image" required>
+                                </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label>Image Upload</label>
+                                <div class="input-group col-xs-12">
+                                    <img style="width: 5rem;height: auto;" src="{{products.image.url}}">
+                                    <input type="file" class="form-control file-upload-info" name="image">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>image1</label>
+                                <div class="input-group col-xs-12">
+                                    <img style="width: 5rem;height: auto;" src="{{products.image1.url}}">
+                                    <input type="file" class="form-control file-upload-info" name="image1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>image2</label>
+                                <div class="input-group col-xs-12">
+                                    <img style="width: 5rem;height: auto;" src="{{products.image2.url}}">
+                                    <input type="file" class="form-control file-upload-info" name="image2">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>image3</label>
+                                <div class="input-group col-xs-12">
+                                    <img style="width: 5rem;height: auto;" src="{{products.image3.url}}">
+                                    <input type="file" class="form-control file-upload-info" name="image3">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputCity1">Category</label>
+                                <select class="form-control" id="category" name="category">
+                                    <option>{{products.category}}</option>
+                                    {% if categories %}
+                                        
+                                    {% for category in categories %}
+                                    <option>{{category.name}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputCity1">Sub Category</label>
+                                <select class="form-control" id="category" name="subcategory">
+                                    <option>{{products.sub}}</option>
+                                    {% for i in sub_categories %}
+                                    <option>{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputCity1">Brand</label>
+                                <select class="form-control" id="brand" name="brand">
+                                    <option>{{products.brand}}</option>
+                                    {% if brands %}
+                                        
+                                    {% for i in brands %}
+                                    <option>{{i.name}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Update</button>
+                            <button class="btn btn-danger mr-2"><a style="text-decoration: none; color: aliceblue;"
+                                    href="{% url 'admin_product' %}">Cancel</a></button>
+                            <!-- <button class="btn btn-primary">Add another product</button> -->
+                        </form>
+
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

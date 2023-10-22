@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+        type="text/css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+Q4p3s6QOJw0fF5J7g9r5PpO1nyGPrfSj5VCXrF7f5yO5O1n" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <!-- modal -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- bootstrap icons cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- toaster -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+
+    
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+
+<body>
+    <!-- Page Preloder -->
+    <!-- <div id="preloder">
+        <div class="loader"></div>
+    </div> -->
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__close">+</div>
+        <ul class="offcanvas__widget">
+            <li><span class="icon_search search-switch"></span></li>
+            <li><a href="#"><span class="icon_heart_alt"></span>
+                    <div class="tip">2</div>
+                </a></li>
+            <li><a href="#"><span class="icon_bag_alt"></span>
+                    <div class="tip">2</div>
+                </a></li>
+        </ul>
+        <!-- <div class="offcanvas__logo">
+            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+        </div> -->
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__auth">
+            <a href="#">Login &nbsp;</a>
+            <a href="#">Register &nbsp;</a>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-lg-2">
+                    <div class="header__logo" style="padding: 10px 0;">
+                        <a href="{% url 'home' %}"><img style="height: 4rem;"
+                                src="{% static 'user/img/logootime.png' %}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-7">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class=""><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'shop' %}">Watches</a>
+                                <!-- <ul class="dropdown">
+                                    <li><a href="#">Men</a></li>
+                                    <li><a href="#">Women’s Watches</a></li>
+                                    <li><a href="#">Kid’s Watches</a></li>
+                                    <li><a href="#">Smart Watches</a></li>
+                                </ul> -->
+                            </li>
+                            <!-- <li><a href="#">Categories</a> -->
+                            <li> <a href="">Account</a>
+                                <ul class="dropdown">
+                                    <li><a href="{% url 'profile'  %}">PROFILE</a></li>
+                                    <li><a href="{% url 'address_book'  %}">ADDRESS</a></li>
+                                    <li><a href="{% url 'wallet_history'  %}">WALLET</a></li>
+                                    <li><a href="{% url 'signout'  %}">LOG OUT</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'about'  %}">About</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__right">
+                        {% if user.is_authenticated %}
+                        <div class="header__right__auth">
+                            <a href="{% url 'profile' %}">{{user.first_name}}</a>
+                            <a href="{% url 'signout' %}">logout</a>
+                        </div>
+                        {% else %}
+                        <div class="header__right__auth">
+                            <a href="{% url 'signin' %}">Login</a>
+                            <a href="{% url 'register' %}">Register</a>
+                        </div>
+                        {% endif %}
+                        <ul class="header__right__widget">
+                            <!-- <li><span class="icon_search search-switch"></span></li> -->
+                            {% if wishlist_item_count > 0 %}
+                            <li><a href="{% url 'wishlist'  %}"><span class="icon_heart_alt"></span>
+                                    <div class="tip">{{wishlist_item_count}}</div>
+                                </a></li>
+                            {% else %}
+                            <li><a href="{% url 'wishlist'  %}"><span class="icon_heart_alt"></span>
+                                    <div class=""></div>
+                                </a></li>
+
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                            {% if item_count > 0 %}
+                            <li><a href="{% url 'cart' %}"><span class="icon_cart_alt"></span>
+                                    <div class="tip">{{item_count}}</div>
+                                </a></li>
+                            {% else %}
+                            <li><a href="{% url 'cart' %}"><span class="icon_cart_alt"></span>
+                                    <div class=""></div>
+                                </a></li>
+                            {% endif %}
+                            {% else %}
+                            <li><a href="{% url 'signin' %}"><span class="icon_cart_alt"></span>
+                                    <div class=""></div>
+                                </a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+    {% block signup %}{% endblock %}
+    {% block content %}
+    {% endblock%}
+
+    <!-- Footer Section Begin -->
+    <hr>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-7">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="./index.html"><img style="height: 6rem;"
+                                    src="{% static 'user/img/logootime.png' %}" alt=""></a>
+                        </div>
+                        <div class="footer__payment">
+                            <img src="{% static 'user/img/payment/payment-1.png' %}" alt="">
+                            <img src="{% static 'user/img/payment/payment-2.png' %}" alt="">
+                            <img src="{% static 'user/img/payment/payment-3.png' %}" alt="">
+                            <img src="{% static 'user/img/payment/payment-4.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-5">
+                    <p style="font-weight: 500;">Welcome to Time Horizon, your premier destination for exquisite
+                        timepieces. Established with a
+                        passion for horology and a commitment to quality, Time Horizon has been serving watch
+                        enthusiasts since [2018].
+
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-4">
+                    <div class="footer__widget">
+                        <h6>Quick links</h6>
+                        <ul>
+                            <li><a href="{% url 'about'  %}">About</a></li>
+                            <li><a href="{% url 'about'  %}">Blogs</a></li>
+                            <li><a href="{% url 'about'  %}">Contact</a></li>
+                            <li><a href="{% url 'about'  %}">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <!-- <div class="footer__widget">
+                        <h6>Account</h6>
+                        <ul>
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="#">Orders Tracking</a></li>
+                            <li><a href="#">Checkout</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                        </ul>
+                    </div> -->
+                </div>
+                <div class="col-lg-3 col-md-8 col-sm-8">
+                    <div class="footer__widget">
+                        <h6>Account</h6>
+                        <ul>
+                            <li><a href="{% url 'profile'  %}">My Account</a></li>
+                            <li><a href="{% url 'orders'  %}">Orders Tracking</a></li>
+                            <li><a href="{% url 'wallet_history'  %}">Wallet history</a></li>
+                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Js Plugins -->
+    <script src="{% static 'user/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'user/js/mixitup.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.nicescroll.min.js' %}"></script>
+    <script src="{% static 'user/js/main.js' %}"></script>
+
+    <!-- swal message notification -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- {% comment %} validation js  {% endcomment %}
+    <script src="{% static 'user/js/validation.js' %}"></script> -->
+
+
+
+    <!--for payment  -->
+    {% block scripts %}
+
+    {% endblock scripts %}
+
+    <script src="{% static 'user/js/checkout.js' %}"></script> <!-- razorpay checkout -->
+    <script src="{% static 'user/js/copy.js' %}"></script> <!---copy the coupons-->
+</body>
+
+</html>

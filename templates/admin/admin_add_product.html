@@ -1,0 +1,122 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}dashboard-Add-product{% endblock %}
+{% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title"> Add Products </h3>
+      <!-- <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Add Products</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Products</li>
+        </ol>
+      </nav> -->
+    </div>
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <!-- <h4 class="card-title">Add Product</h4> -->
+            <!-- <p class="card-description"> Basic form elements </p> -->
+            <form class="forms-sample" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputName1">Name of product</label>
+                <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail3">Original Price</label>
+                <input type="number" class="form-control" id="exampleInputEmail3" name="original_price"
+                  placeholder="Original price">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword4">Selling_Price</label>
+                <input type="number" class="form-control" id="exampleInputPassword4" name="selling_price"
+                  placeholder="Selling_Price">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword4">Quantity</label>
+                <input type="number" class="form-control" id="exampleInputPassword4" name="quantity"
+                  placeholder="Quantity">
+              </div>
+              <div class="form-group">
+                <label for="exampleTextarea1">Description</label>
+                <textarea class="form-control" id="exampleTextarea1" name="description" rows="10"
+                  placeholder="add description here"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Image Upload</label>
+                <div class="input-group col-xs-12">
+                  <input type="file" class="form-control file-upload-info" name="image" placeholder="Upload Image"
+                    required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>image 1</label>
+                <div class="input-group col-xs-12">
+                  <input type="file" class="form-control file-upload-info" name="image1" placeholder="Upload Image"
+                    required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>image 2</label>
+                <div class="input-group col-xs-12">
+                  <input type="file" class="form-control file-upload-info" name="image2" placeholder="Upload Image"
+                    required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>image 3</label>
+                <div class="input-group col-xs-12">
+                  <input type="file" class="form-control file-upload-info" name="image3" placeholder="Upload Image"
+                    required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputCity1">Category</label>
+                <select class="form-control" name="category" id="exampleSelectGender">
+                  {% if categories %}
+                    
+                  {% for i in categories %}
+                  <option>{{i.name}}</option>
+                  {% endfor %}
+                  {% endif %}
+
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputCity1">Sub Category</label>
+                <select class="form-control" name="subcategory" id="exampleSelectGender">
+                  {% if sub_categories %}
+
+                  {% for i in sub_categories %}
+                  <option>{{i.name}}</option>
+                  {% endfor %}
+                  {% endif %}
+
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputCity1">Brand</label>
+                <select class="form-control" name="brand" id="exampleSelectGender">
+                  {% if sub_categories %}
+                  
+                  {% for i in brands %}
+                  <option>{{i.name}}</option>
+                  {% endfor %}
+                  {% endif %}
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary mr-2">Save</button>
+              <button class="btn btn-danger mr-2"><a style="text-decoration: none; color: aliceblue;"
+                  href="{% url 'admin_product' %}">Cancel</a></button>
+              <!-- <button class="btn btn-primary">Add another product</button> -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

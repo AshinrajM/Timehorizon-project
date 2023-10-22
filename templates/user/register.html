@@ -1,0 +1,217 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %} <!-- loading the crispy forms -->
+
+{% block title%}Register{% endblock %}
+{% block content %}
+<div class="container" style="margin-top: 2%;margin-bottom: 5%; margin-right: .5em;margin-left: 8rem;">
+    <div class="row">
+        <div class="col-md-5 d-flex flex-column align-items-center">
+            <img style=" height: 25.5rem;border-radius: 0%;" src="{% static 'user/img/register-1.jpg' %}"
+                alt="Registration Image" class="img-fluid mx-auto">
+            <img style="height: 8rem;" src="{% static 'user/img/register-2.gif' %}" alt="ggr">
+        </div>
+        <div class="col-md-7">
+            <div id="errortext"></div>
+            {% if messages %}
+            {% for message in messages %}
+            <div id="messages" class="alert alert-dismissible">
+                <style>
+                    /* Increase the font size and width of the toaster */
+                    .jq-toast-wrap {
+                        font-size: 25px;
+                        /* Adjust the font size as needed */
+                        width: 500px;
+                        /* Adjust the width as needed */
+                    }
+                </style>
+                <script>
+                    $.toast({
+                        heading: '{{ message.tags }}',
+                        text: '{{ message }}',
+                        icon: '{{ message.tags }}',
+                        loader: true,
+                        loaderBg: '#f96868',
+                        position: 'top-center',
+                        hideAfter: 5000,
+                        stack: 6
+                    });
+                </script>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <div class="container mt-0">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="card border-1" style="border-radius: 0;">
+                            <div class="card-body">
+                                <h2 class="card-title text-center mb-4 "
+                                    style="color: rgb(221, 40, 40);font-weight: 900;letter-spacing: 5px;">
+                                    REGISTER</h2>
+                                <form action="" method="post" id="register-form">
+                                    {% csrf_token %}
+                                    <div class="row mr-1 ml-1">
+                                        <div class="col-md-6">
+                                            <div class="mb-3 mr-2">
+                                                <label for="firstname" class="form-label">First Name</label>
+                                                <input type="text" pattern="^\s*[A-Za-z]{3,}$" class="form-control"
+                                                    id="firstname" name="firstname" placeholder="First Name" required>
+                                                <small id="fname-Error" class="text-danger"></small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastname" pattern="/^[A-Za-z\s]+$/" class="form-label">Last
+                                                    Name</label>
+                                                <input type="text" class="form-control" id="lastname" name="lastname"
+                                                    placeholder="Last Name" pattern="^\s*[A-Za-z]+$" required>
+                                                <small id="lname-Error" class="text-danger"></small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email Address</label>
+                                                <input type="email"
+                                                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                                    class="form-control" id="email" name="email"
+                                                    placeholder="name@example.com" required>
+
+                                                <small id="email-Error" class="text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="mobile" class="form-label">Mobile Number</label>
+                                                <input type="tel" pattern="^(?:(?:\+\d{2}-)?[9876]\d{9})$"
+                                                    class="form-control" id="mobile" name="mobile"
+                                                    placeholder="Enter your number" required>
+                                                <small id="mobile-Error" class="text-danger"></small>
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$" type="password"
+                                                    class="form-control" id="password" name="password"
+                                                    placeholder="Password" required>
+                                                <small id="password-Error" class="text-danger"></small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmpassword" class="form-label">Confirm Password</label>
+                                                <input type="password" class="form-control" id="confirmpassword"
+                                                    name="c_password" placeholder="Confirm Password" required>
+                                                <small id="cPassword-Error" class="text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 mt-3">
+                                            <!-- <label for="referral" class="form-label">If you have any referral code
+                                                enter
+                                                here</label> -->
+                                            <input type="text" class="form-control" id="referral" name="referral"
+                                                placeholder="Enter your referral code here">
+                                            <small id="referral-Error" class="text-danger"></small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="submit" class="btn btn-danger btn-block">Register</button>
+                                        </div>
+                                        <div>
+                                            <p class="text-center mb-0">Already registered? <a style="color: blue;"
+                                                    href="{% url 'signin' %}">Login
+                                                    here</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //check begin
+    // const firstname = document.getElementById("firstname");
+    // const lastname = document.getElementById("lastname");
+
+    // firstname.addEventListener("input", function () {
+    //     const firstnameValue = firstname.value;
+    //     console.log("First Name:", firstnameValue);
+    // });
+
+    // lastname.addEventListener("input", function () {
+    //     const lastnameValue = lastname.value;
+    //     console.log("Last Name:", lastnameValue);
+    // });
+    //check end
+
+    // const form = document.getElementById("register-form");
+    // form.addEventListener("submit", (e) => {
+    //     const firstname = document.getElementById("firstname");
+    //     console.log(firstname);
+    //     const lastname = document.getElementById("lastname");
+    //     console.log(lastname);
+
+    //     const email = document.getElementById("email");
+    //     const mobile = document.getElementById("mobile");
+    //     const password = document.getElementById("password");
+    //     const confirmpassword = document.getElementById("confirmpassword");
+    //     const errortext = document.getElementById("errortext");
+
+    //     const firstnameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.-]{3,}$/;
+    //     const lastnameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.-]{2,}$/;
+
+    //     const emailRegex = /^[a-zA-Z0-9._]{2,}@[a-zA-Z0-9.-]{2,}\.[a-zA-Z]{2,}$/;
+
+    //     const passwordRegex =
+    //         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9!@#$%^&*()_+=\-[\]{}|\\:;"'<>,.?/~]{8,}$/;
+    //     const phoneNumberRegex = /^\d+$/;
+
+    //     const validfirstname = firstnameRegex.test(firstname.value);
+    //     const validlastname = lastnameRegex.test(lastname.value);
+    //     const validusername = validfirstname && validlastname
+    //     const validemail = emailRegex.test(email.value);
+
+    //     const validphonenumber = phoneNumberRegex.test(phonenumber.value);
+    //     const validpasswordone = passwordRegex.test(password.value);
+    //     const validconfirmpassword = passwordRegex.test(confirmpassword.value);
+    //     const validpasswordmatch = password.value === confirmpassword.value;
+    //     const validpassword =
+    //         validpasswordone && validconfirmpassword && validpasswordmatch;
+
+    //     const validity =
+    //         validusername && validemail && validphonenumber && validpassword;
+
+    //     if (!validity) {
+    //         e.preventDefault();
+    //     }
+    //         if (!validemail) {
+    //             email.classList.add("border-danger");
+    //             errortext.innerHTML = "Invalid Email Address";
+    //         } else {
+    //             email.classList.remove("border-danger");
+    //         }
+
+    //         if (!validphonenumber) {
+    //             phonenumber.classList.add("border-danger");
+    //             errortext.innerHTML = "Invalid Phone Number";
+    //         } else {
+    //             phonenumber.classList.remove("border-danger");
+    //         }
+
+    //         if (!validpassword) {
+    //             password.classList.add("border-danger");
+    //             confirmpassword.classList.add("border-danger");
+    //             if (!validpasswordone) {
+    //                 errortext.innerHTML = "Invalid Password";
+    //             }
+    //             if (!validpasswordmatch) {
+    //                 errortext.innerHTML = "Password Missmatch";
+    //                 confirmpassword.value = ""; // Clear the content of the username input field
+    //             }
+    //         } else {
+    //             password.classList.remove("border-danger");
+    //             confirmpassword.classList.remove("border-danger");
+    //         }
+    //     });
+    // </script>
+
+{% endblock %}

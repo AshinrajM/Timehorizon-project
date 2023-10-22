@@ -1,0 +1,310 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'home'  %}"><i class="fa fa-home"></i> Home</a>
+                    <span>Shopping cart</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Shop Cart Section Begin -->
+<section class="shop-cart spad">
+    <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div id="messages" class="alert alert-dismissible">
+            <style>
+                /* Increase the font size and width of the toaster */
+                .jq-toast-wrap {
+                    font-size: 25px;
+                    /* Adjust the font size as needed */
+                    width: 500px;
+                    /* Adjust the width as needed */
+                }
+            </style>
+            <script>
+                $.toast({
+                    heading: '{{ message.tags }}',
+                    text: '{{ message }}',
+                    icon: '{{ message.tags }}',
+                    loader: true,
+                    loaderBg: '#f96868',
+                    position: 'top-center',
+                    hideAfter: 5000,
+                    stack: 6
+                });
+            </script>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% if not cart_items %}
+        <div class="card">
+            <div class="card-body mt-2  text-center">
+                <div class="button-container">
+                    <div class="d-flex align-items-center">
+                        <img style="height: 20rem;width: 30rem;" src="{% static 'user/img/no-orders.png' %}"
+                            alt="nothing">
+                        <h2>Your Cart is Empty</h2>
+                        <a href="{% url 'shop' %}" type="button" style="background-color: rgb(228, 70, 70);
+                        color: white; border: none; padding: 10px 10px; text-align:
+                        center; text-decoration: none; display: inline-block;
+                        font-size: 16px;font-weight: 500; cursor: pointer; border-radius: 0;margin-left: 2rem;">
+                            GO TO SHOPPING
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            {% if messages %}
+            {% for message in messages %}
+            <div id="messages" class="alert alert-dismissible">
+                <style>
+                    /* Increase the font size and width of the toaster */
+                    .jq-toast-wrap {
+                        font-size: 25px;
+                        /* Adjust the font size as needed */
+                        width: 500px;
+                        /* Adjust the width as needed */
+                    }
+                </style>
+                <script>
+                    $.toast({
+                        heading: '{{ message.tags }}',
+                        text: '{{ message }}',
+                        icon: '{{ message.tags }}',
+                        loader: true,
+                        loaderBg: '#f96868',
+                        position: 'top-center',
+                        hideAfter: 5000,
+                        stack: 6
+                    });
+                </script>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+
+            <div class="col-lg-8">
+                <div class="shop__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if cart_items %}
+
+                            {% for cart_item in cart_items %}
+                            <tr>
+                                <td class="cart__product__item">
+                                    <img style="width: 75px;height: 75px;" src="{{cart_item.product.image.url}}"
+                                        alt="usdjn">
+                                    <div class="cart__product__item__title">
+                                        <h4>{{cart_item.product.name}}</h4>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <h6 style="font-weight: 100;font-size: small;">
+                                            ({{cart_item.product.sub}}&nbsp; -&nbsp; STRAP)</h6>
+                                    </div>
+                                </td>
+                                <td class="cart__price">{{cart_item.product.selling_price}}</td>
+                                {% if cart_item.quantity < cart_item.product.quantity %} <td class="cart__quantity">
+                                    <div class="d-flex align-content-center">
+                                        <a class="d-inline-block"
+                                            href="{% url 'remove_cart' cart_item.product.id  %}"><button
+                                                class="btn btn-muted" type="button"><i
+                                                    class="fa fa-minus">&nbsp;</i></button></a>
+                                        <p class=""><strong> {{cart_item.quantity}}&nbsp;</strong></p>
+                                        <a class="d-inline-block" href="{% url 'add_cart' cart_item.product.id  %}">
+                                            <button class="btn btn-muted" type="button"><i
+                                                    class="fa fa-plus"></i></button></a>
+                                    </div>
+                                    </td>
+                                    {% else %}
+                                    <td class="cart__quantity">
+
+                                        <div class="d-flex align-content-center">
+                                            <a class="d-inline-block"
+                                                href="{% url 'remove_cart' cart_item.product.id  %}"><button
+                                                    class="btn btn-muted" type="button"><i
+                                                        class="fa fa-minus">&nbsp;</i></button></a>
+                                            <p class=""><strong> {{cart_item.quantity}}&nbsp;</strong></p>
+                                        </div>
+                                    </td>
+                                    {% endif %}
+                                    <td class="cart__total">{{cart_item.sub_total}}</td>
+                                    <td><a class="" href="{% url 'full_remove' cart_item.product.id %}"><button
+                                                class="btn btn-muted" type="button"><i
+                                                    class="fa fa-trash"></i></button></a></td>
+
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- <div class="discount__content" style="margin-bottom: 2vw;">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">Apply</button>
+                    </form>
+                </div> -->
+                <div class="discount__content mb-4">
+                    <h4 style="text-decoration: underline;  text-underline-offset: 25px; 
+                        text-decoration-color: rgb(216, 216, 219);text-decoration-thickness:1px; margin-bottom: 2rem;">
+                        COUPONS</h4>
+                    <div class="mb-4 d-flex col-lg-12">
+                        <!-- <span style="font-size: medium;">click to Choose coupons</span> -->
+                        <button class="btn btn-success" style="margin-left: 5.5rem;border-radius: 0;font-weight: bold;"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">Find Your
+                            Coupons</button>
+                    </div>
+                    {% if request.session.coupon %}
+                    <!-- <p style="color: green;">Coupon applied</p> -->
+                    <div class="d-flex">
+                        <p style="color: green;margin-right: 1rem;">Coupon used&nbsp;:&nbsp;{{used_coupon.coupon_code}}
+                        </p>
+                        <a style="color: red;" href="{% url 'coupon_clear' %}"><i class="bi bi-x-circle"></i>
+                        </a>
+                    </div>
+                    <div class="input-group d-flex">
+                        <form action="{% url 'coupon_validate' %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" placeholder="Enter your coupon code" name="coupon">
+                            <button type="submit" class="site-btn">Apply</button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="input-group d-flex">
+                        <form action="{% url 'coupon_validate' %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" placeholder="Enter your coupon code" name="coupon">
+                            <button type="submit" class="site-btn">Apply</button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                </div>
+                <div class="cart__total__procced" style="padding: 1rem;">
+                    <h6>Cart total</h6>
+                    <ul style="padding-left: 0;">
+
+                        <li>Price<span>{{total}}</span></li>
+                        {% if delivery_charge > 0 %}
+                        <li>Delivery Charge <span>{{delivery_charge}}</span></li>
+                        {% else %}
+                        <li>Delivery Charge<span style="color: green;">FREE</span></li>
+                        <p style="font-size: smaller;">*free delivery for orders above 1000</p>
+                        {% endif %}
+                        {% if request.session.coupon %}
+                        <li>Coupon discount<span>{{used_coupon.discount}}</span></li>
+                        {% endif %}
+                        <li>Total Amount<span>{{grand_total}}</span></li>
+                        <p style="font-size: small;">*(Including&nbsp; All&nbsp; Taxes)</p>
+                    </ul>
+                    <a href="{% url 'check_out' %}" class="primary-btn">Proceed to checkout</a>
+                    <div style="margin-top: 1vw;">
+                        <a href="{% url 'shop' %}" class="primary-btn">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="{% url 'shop'  %}">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="cart__btn update__btn">
+                    <a href="#"><span class="icon_loading"></span> Update cart</a>
+                </div>
+            </div>
+
+        </div> -->
+        <!-- <div class="row"> -->
+        <!-- <div class="col-lg-6">
+                <div class="discount__content">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">Apply</button>
+                    </form>
+                </div>
+            </div> -->
+        <!-- <div class="col-lg-4 offset-lg-2">
+                <div class="cart__total__procced">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>$ 750.0</span></li>
+                        <li>Total <span>$ 750.0</span></li>
+                    </ul>
+                    <a href="#" class="primary-btn">Proceed to checkout</a>
+                </div>
+            </div> -->
+        <!-- </div> -->
+    </div>
+</section>
+<!-- Shop Cart Section End -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 25rem;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Available Coupons</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="width: 500px;">
+                {% if coupon %}
+
+                {% for i in coupon %}
+                <div class="d-flex mb-2">
+                    <div class="card d-flex p-3">
+                        <input class="form-control mb-0" type="text" id="couponCodeInput_{{ i.id }}"
+                            value="{{i.coupon_code}}" aria-label="Coupon code" readonly>
+                        <span class="mb-0 " style="width: 100%;font-size: 15px;">Amount to apply
+                            this
+                            coupon&nbsp;:&nbsp;₹{{i.min_amount}}</span>
+                    </div>
+                    <div>
+                        <button class="btn btn-danger ml-4" style="border-radius: 0;"
+                            onclick="copyToClipboard({{ i.id }})">Copy</button>
+                    </div>
+                </div>
+
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

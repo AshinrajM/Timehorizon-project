@@ -1,0 +1,435 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block section %}
+{% if requests %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'admin_product' %}">
+    <div class="d-flex align-items-center">
+      <span class="icon-bg"><i class="mdi mdi-file menu-icon" style="color: red;"></i></span>
+      <a href="{% url 'admin_order' %}"><span class="menu-title" style="color: red;">Requests Waiting</span></a>
+  </a>
+  </div>
+</li>
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row" id="proBanner">
+      <div class="col-12" id="bannerClose">
+        <!-- <span class="d-flex align-items-center purchase-popup"> -->
+        <!-- <p>Like what you see? Check out our premium version for more.</p> -->
+        <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank"
+          class="btn ml-auto download-button"></a>
+        <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank"
+          class="btn purchase-button"></a>
+        <!-- <i class="mdi mdi-close" ></i> -->
+        <!-- </span> -->
+      </div>
+    </div>
+    <div class="row">
+      {% if profit %}
+      <div class="col-md-4">
+        <div class="card" style="width:18rem;">
+
+          <div class="card-body" style="background-color: aqua;">
+            <h4 style="color: black;margin-bottom: 1rem;">TOTAL PROFIT</h4>
+            <h4 style="color: black;margin-bottom: 1rem;">₹ {{profit}}</h4>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% if income %}
+
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body" style="background-color: rgba(255, 255, 0, 0.774);">
+            <h4 style="color: black;margin-bottom: 1rem;">TOTAL SALES</h4>
+            <h4 style="color: black;margin-bottom: 1rem;">₹ {{income}}</h4>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% if successfull %}
+
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body" style="background-color: yellowgreen;">
+            <h4 style="color: black;margin-bottom: 1rem;">COMPLETED ORDERS</h4>
+            <h4 style="color: black;margin-bottom: 1rem;">{{successfull}}</h4>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+    <div class="d-xl-flex justify-content-between align-items-start mt-4">
+      <h2 class="text-dark font-weight-bold mb-2"> Overview dashboard </h2>
+
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tab-content tab-transparent-content">
+          <div class="tab-pane fade show active" id="business-1" role="tabpanel" aria-labelledby="business-tab">
+            <div class="row">
+              <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  {% if order_count %}
+                  <div class="card-body text-center">
+                    <h5 class="mb-2 text-dark font-weight-normal">Orders</h5>
+                    <h2 class="mb-4 text-dark font-weight-bold">{{ order_count }}</h2>
+                    <div
+                      class="dashboard-progress dashboard-progress-1 d-flex align-items-center justify-content-center item-parent"
+                      style="position: relative;">
+                      <i class="mdi mdi-lightbulb icon-md absolute-center text-dark"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                    </div>
+                  </div>
+                  {% endif %}
+
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  {% if user_count %}
+
+                  <div class="card-body text-center">
+                    <h5 class="mb-2 text-dark font-weight-normal">Total Users</h5>
+                    <h2 class="mb-4 text-dark font-weight-bold">{{ user_count }}</h2>
+                    <div
+                      class="dashboard-progress dashboard-progress-2 d-flex align-items-center justify-content-center item-parent"
+                      style="position: relative;">
+                      <i class="mdi mdi-account-circle icon-md text-dark"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                    </div>
+                  </div>
+                  {% endif %}
+
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  {% if categories %}
+                    
+                  <div class="card-body text-center">
+                    <h5 class="mb-2 text-dark font-weight-normal">Categories</h5>
+                    <h2 class="mb-4 text-dark font-weight-bold">{{ categories }}</h2>
+                    <div
+                      class="dashboard-progress dashboard-progress-3 d-flex align-items-center justify-content-center item-parent"
+                      style="position: relative;">
+                      <i class="mdi mdi-eye icon-md text-dark"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                    </div>
+                  </div>
+                  {% endif %}
+
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  {% if product_count %}
+                  <div class="card-body text-center">
+                    <h5 class="mb-2 text-dark font-weight-normal">Total Products</h5>
+                    <h2 class="mb-4 text-dark font-weight-bold">{{ product_count }}</h2>
+                    <div
+                      class="dashboard-progress dashboard-progress-4 d-flex align-items-center justify-content-center item-parent"
+                      style="position: relative;">
+                      <i class="mdi mdi-cube icon-md text-dark"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                          <!-- <h4 class="card-title mb-0">Recent Activity</h4> -->
+                          <div class="dropdown dropdown-arrow-none">
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-4 grid-margin  grid-margin-lg-0">
+                        {% if profit %}
+
+                        <div class="wrapper pb-5 border-bottom">
+                            
+                          <div class="text-wrapper d-flex align-items-center justify-content-between mb-2">
+                            <p class="mb-0 text-dark">Total Profit</p>
+                            <!-- <span class="text-success"><i class="mdi mdi-arrow-up"></i>2.95%</span> -->
+                          </div>
+                          <h3 class="mb-0 text-dark font-weight-bold">₹ {{profit}}</h3>
+                          <!-- <canvas id="total-profit"></canvas> -->
+                        </div>
+                        {% endif %}
+                        {% if income %}
+                          
+                        <div class="wrapper pt-5">
+                          <div class="text-wrapper d-flex align-items-center justify-content-between mb-2">
+                            <p class="mb-0 text-dark">Total Income</p>
+                            <!-- <span class="text-success"><i class="mdi mdi-arrow-up"></i></span> -->
+                          </div>
+                          <h3 class="mb-4 text-dark font-weight-bold">₹ {{income}}</h3>
+                          <!-- <canvas id="total-expences"></canvas> -->
+                        </div>
+                        {% endif %}
+
+                      </div>
+                      <div class="col-lg-9 col-sm-8 grid-margin  grid-margin-lg-0">
+                        <div class="pl-0 pl-lg-4 ">
+
+                          <div class="d-xl-flex justify-content-between align-items-center mb-2">
+                          </div>
+                          <!-- pie chart payment type -->
+                          <div id="myChart" style="width:100%; max-width:1000px; height:300px;">
+                          </div>
+                          <!-- end  pie chart -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 grid-margin stretch-card">
+                <div class="card card-danger-gradient">
+                  <div class="card-body mb-4">
+                    <h4 class="card-title text-white">Account Retention</h4>
+                    {% if income %}
+                      
+                    <div class="mt-4 mb-4">
+                      <h4>Conversion</h4>
+                      <h5 class="text-dark font-weight-bold mb-3">₹{{income}}</h5>
+                    </div>
+                    {% endif %}
+                    {% if refund %}
+                    <div class="mt-4 mb-4">
+                      <h4>Cancellation</h4>
+                      <h5 class="text-dark font-weight-bold">₹{{refund}}</h5>
+                    </div>
+                    {% endif %}
+                    <div class="row mt-4">
+                      <form action="" method="post">
+                        {% csrf_token %}
+                        <h4 style="color: white;text-decoration:wavy;">Sales Report</h4>
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col mb-3">
+                              <label for="fromDate">From:</label>
+                              <input type="date" name="fromDate" id="fromDate" class="form-control" required>
+                            </div>
+                            <div class="col">
+                              <label for="toDate">To:</label>
+                              <input type="date" name="toDate" id="toDate" class="form-control" required>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="btn btn-secondary" type="submit" style="color: rgb(0, 0, 0);">submit</button>
+                      </form>
+                    </div>
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div id="messages" class="alert alert-dismissible">
+                      <style>
+                        /* Increase the font size and width of the toaster */
+                        .jq-toast-wrap {
+                          font-size: 25px;
+                          /* Adjust the font size as needed */
+                          width: 500px;
+                          /* Adjust the width as needed */
+                        }
+                      </style>
+                      <script>
+                        $.toast({
+                          heading: '{{ message.tags }}',
+                          text: '{{ message }}',
+                          icon: '{{ message.tags }}',
+                          loader: true,
+                          loaderBg: '#f96868',
+                          position: 'top-center',
+                          hideAfter: 5000,
+                          stack: 6
+                        });
+                      </script>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8  grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-xl-flex justify-content-between mb-2">
+                      <h4 class="card-title">Monthly sales</h4>
+                    </div>
+                    <div id="barChart" style="max-width:700px; height:400px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if orders_in_orange %}
+        <div class="row">
+          <div class="col-md-12 mb-4">
+            <table class="table table-bordered mb-4">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">order number</th>
+                  <th scope="col">User</th>
+                  <th scope="col">Order price</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in orders_in_orange %}
+
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{i.created_at}}</td>
+                  <td>{{i.order_number}}</td>
+                  <td>{{i.user}}</td>
+                  <td>{{i.order_total}}</td>
+                  <td>{{i.payment.payment_method}}</td>
+                  <td>{{i.status}}</td>
+                </tr>
+                {% endfor %}
+                <div class="col-md-3 mb-4">
+                  <form action="{% url 'pdf_report' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" value="{{fromDate}}" name="fromDate" hidden>
+                    <input type="text" value="{{toDate}}" name="toDate" hidden>
+                    <button type="submit" class="btn btn-secondary btn-block">Download PDF</button>
+                  </form>
+                </div>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+        <hr>
+      </div>
+    </div>
+    <!-- <div id="linechart" style="max-width:700px; height:400px"></div> -->
+    <!-- <div class="row">
+      <div class="col-md-4">
+        <table class="table border mb-5">
+          <thead class="mb-4">
+            <h3>Report</h3>
+            <tr>
+              <td style="padding: 10px; border: 2px solid #333;"></td>
+              <td style="padding: 10px; border: 2px solid #333;">data</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for name,value in total.items %}
+            <tr>
+              <td style="padding: 10px; border: 2px solid #333;">{{ name }}</td>
+              <td style="padding: 10px; border: 2px solid #333;">{{ value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+
+
+
+<!-- <script>
+  function validateForm() {
+    var fromDate = new Date(document.getElementById("fromDate").value);
+    var toDate = new Date(document.getElementById("toDate").value);
+
+    if (fromDate > toDate) {
+      alert("From date cannot be greater than the To date.");
+      return false;  // Prevent form submission
+    }
+    return true;  // Allow form submission if validation passes
+  }
+</script> -->
+
+
+
+
+
+<script>
+  // pie chart payment method
+  const codPercentage = {{ cod }};
+  const razorPayPercentage = {{ razor_pay }};
+
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    const data = google.visualization.arrayToDataTable([
+      ['Payment Method', 'Percentage'],
+      ['COD', codPercentage],
+      ['UPI', razorPayPercentage],
+    ]);
+
+    const options = {
+      title: 'Orders analysis',
+      is3D: true
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById('myChart'));
+    chart.draw(data, options);
+  }
+
+  // pie chart end 
+
+</script>
+
+<!-- bar chart begin -->
+<script>
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    const data = google.visualization.arrayToDataTable({{ monthly_sales_data| safe }});
+
+
+  const options = {
+    // title: 'Monthly sales',
+    hAxis: {
+      title: 'Month',
+      format: '0', // Format axis labels as integers
+    },
+    vAxis: { title: 'Orders' },
+
+    series: {
+      0: { groupWidth: '30%' }, // Adjust the thickness as a percentage
+    }
+  };
+
+  const chart = new google.visualization.BarChart(document.getElementById('barChart'));
+  chart.draw(data, options);
+  }
+</script>
+<!-- barchart end -->
+
+
+
+
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{% url 'home'  %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'profile'  %}">profile</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Orders</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <div class="search-field d-none d-xl-block">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div style="color: rgb(58, 247, 10);">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <!-- <span class="text-dark mb-3">ORDERS</span> -->
+            <div class="row mt-4">
+                <div class="col-lg-12 ">
+                    {% if not order %}
+                    <div class="card">
+                        <div class="card-body mt-2 mb-2 text-center">
+                            <div class="button-container">
+                                <div class="d-flex align-items-center">
+                                    <img style="height: 20rem;width: 20rem;" src="{% static 'user/img/no-orders.png' %}"
+                                        alt="nothing">
+                                    <h2>You haven't Ordered Anything Make your first Order</h2>
+                                </div>
+                                <div class="">
+                                    <a href="{% url 'shop' %}" type="button" style="background-color: rgb(228, 70, 70);
+                                    color: white; border: none; padding: 10px 10px; text-align:
+                                    center; text-decoration: none; display: inline-block;
+                                    font-size: 16px;font-weight: 500; cursor: pointer; border-radius: 0;">
+                                        GO TO SHOPPING
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="sortTable">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th> Date</th>
+                                            <th> Order number</th>
+                                            <th> Total price</th>
+                                            <th> Payment</th>
+                                            <th> Status</th>
+                                            <th> Actions</th>
+                                            <th> Details</th>
+                                            <th> Invoice</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in order %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{i.created_at}}</td>
+                                            <td>{{i.order_number}}</td>
+                                            <td>{{i.payable_amount}}</td>
+                                            {% if i.payment.is_paid %}
+                                            <td>PAID</td>
+                                            {% else %}
+                                            <td>COD</td>
+                                            {% endif %}
+                                            <td>{{i.status}}</td>
+                                            {% if i.status == "Cancelled" %}
+                                            <td style="color: red;">Order cancelled</td>
+                                            {% elif i.status == "Delivered" %}
+                                            <td><button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModalreturn-{{i.id}}">Return</button>
+                                            </td>
+                                            {% elif i.status == "Return Requested" %}
+                                            <td style="color: rgb(64, 188, 204);">Waiting for approval</td>
+                                            {% elif i.status == "Return Request Rejected" %}
+                                            <td style="color: rgb(54, 9, 255);">Rejected</td>
+                                            {% elif i.status == "Returned" %}
+                                            <td style="color: rgb(74, 85, 241);">Returned</td>
+                                            {% elif i.status == "Confirmed" %}
+                                            <td>
+                                                <!-- modal button -->
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal-{{i.id}}">
+                                                    Cancel Order
+                                                </button>
+                                                <!-- modal button end -->
+                                            </td>
+                                            {% else %}
+                                            <td style="color: rgb(247, 214, 31);">Processing</td>
+                                            {% endif %}
+                                            <td>
+                                                <a href="{% url 'order_details' i.id %}">
+                                                    View
+                                                </a>
+                                            </td>
+                                            <td><a href="{% url 'generate_invoice' i.id %}" class="pl-3"><i
+                                                        class="fas fa-download"></i></a></td>
+                                            <!-- <td>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">
+                                                    modal
+                                                </button>
+                                            </td> -->
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- --------------------------------------------------------------------->
+        </div>
+    </div>
+</div>
+<hr class="mt-5">
+
+
+
+{% for i in order %}
+<!-- Modal  for cancel-->
+<form action="{% url 'cancel_order' i.id  %}" method="post">
+    {% csrf_token %}
+    <div class="modal fade" id="exampleModal-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3" style="font-weight: 700;">Are you sure you want to cancel this order?</p>
+                    <p>Reason for cancel ?</p>
+                    <select name="cancel_reason" class="form-select" required>
+                        {% for reason_cancel in i.REASON %}
+                        <option value="{{ reason_cancel.1 }}">{{ reason_cancel.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Modal  for cancel end -->
+
+<!-- modal for return -->
+<form action="{% url 'return_order' i.id %}" method="post">
+    {% csrf_token %}
+    <div class="modal fade" id="exampleModalreturn-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Reason for return ?</p>
+                    <select name="return_reason" class="form-select" required>
+                        {% for return_reason in i.RETURN %}
+                        <option value="{{ return_reason.1 }}">{{ return_reason.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondaryd q" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Modal  for return end -->
+{% endfor %}
+
+{% endblock %}

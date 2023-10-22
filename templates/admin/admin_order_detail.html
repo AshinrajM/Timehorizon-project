@@ -1,0 +1,147 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}dashboard-product{% endblock %}
+{% block content %}
+<div class="col-md-9">
+    <div class="card border-dark mb-3">
+        <div class="card-header text-dark">ORDER DETAILS</div>
+        <div class="card-body text-dark">
+            <div class="row">
+                {% if order_items %}
+
+                {% for order_item in order_items %}
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <img style="width: 10rem;height: 10rem;" src="{{order_item.product.image.url}}"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{order_item.product.name}}</h5>
+                            <p class="card-text">
+                                {{order_item.product.category}}&nbsp;-&nbsp;{{order_item.product.sub.name}}
+                            </p>
+                            <p class="card-text">Quantity&nbsp;-&nbsp;{{order_item.quantity}}</p>
+                            <p class="card-text">Price&nbsp;-&nbsp;{{order_item.product.selling_price}}(*each)</p>
+                            <p class="card-text">{{order_item.}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+            {% if order %}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Order Details</h5>
+                            <p class="card-text" style="font-size: large;">Order
+                                number&nbsp;-&nbsp;{{order.order_number}}</p>
+                            <p class="card-text" style="font-size: large;">Date&nbsp;-&nbsp;{{order.created_at}}</p>
+                            <p class="card-text" style="font-size: large;">
+                                Payment&nbsp;-&nbsp;{{order.payment.payment_method}}</p>
+                            <p class="card-text" style="font-size: large;">Total
+                                amount&nbsp;-&nbsp;₹{{order.order_total}}
+                            </p>
+                            {% if delivery_charge == 0 %}
+                            <p class="card-text" style="font-size: large;">
+                                delivery_charge&nbsp;-&nbsp;FREE
+                            </p>
+                            {% else %}
+                            <p class="card-text" style="font-size: large;">
+                                Delivery charge&nbsp;-&nbsp;{{delivery_charge}}
+                            </p>
+                            {% endif %}
+                            {% if order.used_coupon %}
+                            <p class="card-text" style="font-size: large;">Coupon
+                                Applied&nbsp;-&nbsp;{{order.used_coupon}}</p>
+                            {% endif %}
+                            <p class="card-text" style="font-size: large;">
+                                Order status&nbsp;-&nbsp;{{order.status}}
+                            </p>
+                            <div class="d-flex">
+                                {% if order.status == "Return Requested" %}
+                                <span class="card-text" style="font-size: large;">
+                                    Approve return request&nbsp;:&nbsp;</span>
+                                <a href="{% url 'request_approve' order.id %}" style="text-decoration: none;"><span
+                                        style="color: green; font-size: 20px; margin-right: 5px;
+                                    font-weight: bolder; border: 1px solid #000; width: 25px; 
+                                    height:25px;padding: 5px;border-radius: 10px;">&#10003;</span></a>
+                                <a href="{% url 'request_rejected' order.id %}" style="text-decoration: none;">
+                                    <span style="color: rgb(221, 44, 44); font-size: 20px;
+                                    font-weight: bolder; border: 1px solid #000; width: 25px; 
+                                    height:25px;padding: 5px;border-radius: 10px;">&#10006;</span></a>
+                                {% endif %}
+                            </div>
+                            <!--update the order status -->
+                            {% if not order.status == "Cancelled" %}
+                            {% if not order.status == "Returned" %}
+                            {% if not order.status == "Return Requested" %}
+                            <form action="{% url 'order_status' order.id %}" method="post">
+                                {% csrf_token %}
+                                <select class="form-control mt-4" id="statusDropdown" name="order_status"
+                                    value="{{order.status}}">
+                                    <option value="">choose status</option>
+                                    {% for status in order.STATUS %}
+                                    <option value="{{ status.1 }}">{{ status.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn btn-primary mt-2">Save</button>
+                            </form>
+                            {% endif %}
+                            {% endif %}
+                            {% endif %}
+
+
+                            <!-- select end-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-size: large;">Delivery address</h5>
+                            <p class="card-text text-lg" style="font-size: large;">{{order.address.name}}</p>
+                            <p class="card-text" style="font-size: large;">{{order.address.phone}}</p>
+                            <p class="card-text" style="font-size: large;">
+                                {{order.address.address}}&nbsp;
+                                {{order.address.street}},&nbsp;{{order.address.district}}&nbsp;,
+                                {{order.address.state}}
+                            </p>
+                            <p class="card-text" style="font-size: large;">
+                            </p>
+                            <p class="card-text" style="font-size: large;">
+                                {{order.address.postcode}}&nbsp;,
+                                near-{{order.address.near_by_location}}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- modal -->
+
+{% endblock %}
+<!-- <div class="col-md-4">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Delivery address</h5>
+            <p class="card-text text-lg">{{order_item.order.address.name}}</p>
+            <p class="card-text">{{order_item.order.address.phone}}</p>
+            <p class="card-text">
+                {{order_item.order.address.address}}&nbsp;, {{order_item.order.address.street}}
+            </p>
+            <p class="card-text">
+                {{order_item.order.address.district}}&nbsp;, {{order_item.order.address.state}}
+            </p>
+            <p class="card-text">
+                {{order_item.order.address.postcode}}&nbsp;,
+                near-{{order_item.order.address.near_by_location}}</p>
+        </div>
+    </div>
+</div> -->

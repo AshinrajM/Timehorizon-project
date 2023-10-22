@@ -1,0 +1,90 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %} <!-- loading the crispy forms -->
+{% block title %}dashboard-categories{% endblock %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Sub Category </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <!-- <li class="breadcrumb-item active" aria-current="page">Basic tables</li> -->
+                </ol>
+            </nav>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div id="messages" class="alert alert-dismissible">
+            <style>
+                /* Increase the font size and width of the toaster */
+                .jq-toast-wrap {
+                    font-size: 25px;
+                    /* Adjust the font size as needed */
+                    width: 500px;
+                    /* Adjust the width as needed */
+                }
+            </style>
+            <script>
+                $.toast({
+                    heading: '{{ message.tags }}',
+                    text: '{{ message }}',
+                    icon: '{{ message.tags }}',
+                    loader: true,
+                    loaderBg: '#f96868',
+                    position: 'top-center',
+                    hideAfter: 5000,
+                    stack: 6
+                });
+            </script>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Striped Table</h4> -->
+                        <!-- <p class="card-description"> Add class <code>.table-striped</code> -->
+                        <!-- </p> -->
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="sortTable">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>Operations</th>
+                                        <th>Available</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if sub_category %}
+                                        
+                                    {% for i in sub_category %}
+                                    <tr>
+                                        <td>{{i.name}}</td>
+                                        <td>
+                                            <a href="{% url 'admin_edit_sub_category' i.id %}">&nbsp;&nbsp;<i
+                                                    class="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;Edit
+                                            </a>
+                                        </td>
+                                        {% if i.active %}
+                                        <td><a href="{% url 'sub_category_active' i.id %}"
+                                                class="btn btn-primary btn-sm" tabindex="-1" role="button"
+                                                aria-disabled="true">unlist</a>
+                                        </td>
+                                        {% else %}
+                                        <td><a href="{% url 'sub_category_active' i.id %}" class="btn btn-danger btn-sm"
+                                                tabindex="-1" role="button" aria-disabled="true">unlisted</a>
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}

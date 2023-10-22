@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3y-d65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid rgb(59, 58, 58);
+            padding: 5px;
+            /* Add padding for proper spacing */
+            text-align: center;
+            /* Center align the content in cells */
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-9 mb-4">
+            <h1>Time Horizon</h1>
+            <table class="table table-bordered border-primary">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 5%;">#</th>
+                        <th scope="col" style="width: 15%;">Date</th>
+                        <th scope="col" style="width: 15%;">Order number</th>
+                        <th scope="col" style="width: 15%;">User</th>
+                        <th scope="col" style="width: 15%;">Order price</th>
+                        <th scope="col" style="width: 15%;">Payment</th>
+                        <th scope="col" style="width: 15%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in orders_in_range %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{i.created_at}}</td>
+                        <td>{{i.order_number}}</td>
+                        <td>{{i.user}}</td>
+                        <td>{{i.order_total}}</td>
+                        <td>{{i.payment.payment_method}}</td>
+                        <td>{{i.status}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

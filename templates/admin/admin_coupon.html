@@ -1,0 +1,231 @@
+{% extends 'admin/admin_base.html' %}
+{% load crispy_forms_tags %} <!-- loading the crispy forms -->
+{% load static %}
+{% block title %}dashboard-coupon{% endblock %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <div class="search-field d-none d-xl-block">
+                {% if messages %}
+                {% for message in messages %}
+
+                <div id="messages" class="alert alert-dismissible">
+                    <style>
+                        /* Increase the font size and width of the toaster */
+                        .jq-toast-wrap {
+                            font-size: 25px;
+                            /* Adjust the font size as needed */
+                            width: 500px;
+                            /* Adjust the width as needed */
+                        }
+                    </style>
+                    <script>
+                        $.toast({
+                            heading: '{{ message.tags }}',
+                            text: '{{ message }}',
+                            icon: '{{ message.tags }}',
+                            loader: true,
+                            loaderBg: '#f96868',
+                            position: 'top-center',
+                            hideAfter: 5000,
+                            stack: 6
+                        });
+                    </script>
+                </div>
+
+                <!-- <div class="card" style="background-color: rgb(209, 52, 52);padding: 1rem;">
+                    <div style="color: rgb(255, 255, 255);">
+                        {{ message }}
+                    </div>
+                </div> -->
+
+                {% endfor %}
+                {% endif %}
+                <!-- <form class="d-flex align-items-center h-100" action="#" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <div class="input-group-prepend bg-transparent">
+                            <i class="input-group-text border-0 mdi mdi-magnify"></i>
+                        </div>
+                        <input type="text" name="name" class="form-control bg-transparent border-0"
+                            placeholder="Search products">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary" style="margin-right: .5vw;"
+                            style="border-radius: 0;">Search</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-danger" style="border-radius: 0;"
+                            href="{% url 'admin_product'}">X</button>
+                    </div>
+                </form> -->
+            </div>
+            <h3 class="page-title"> Coupons </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
+                            style="border-radius: 0;">Add
+                            Coupons</button></li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Striped Table</h4> -->
+                        <!-- <p class="card-description"> Add class <code>.table-striped</code> -->
+                        <!-- </p> -->
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="sortTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th> name </th>
+                                        <th> discount </th>
+                                        <th> min_amount </th>
+                                        <th> Created date </th>
+                                        <th> Expiry date </th>
+                                        <th> Action </th>
+                                        <th> Available </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if coupons %}
+
+                                    {% for i in coupons %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{i.coupon_code}}</td>
+                                        <td>{{i.discount}}</td>
+                                        <td>{{i.min_amount}}</td>
+                                        <td>{{i.valid_from}}</td>
+                                        <td>{{i.valid_at}}</td>
+                                        <!-- <td>
+                                            <a href="{% url 'admin_edit_product' i.id %}">&nbsp;&nbsp;<i
+                                                    class="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;Edit
+                                            </a>
+                                        </td> -->
+                                        <td><button class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop-{{i.id}}">Edit</button></td>
+                                        <td>{{i.active}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal   add coupon-------------------------->
+            <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Create Coupon</h5>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'admin_add_coupon' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Name of Coupon</label>
+                                    <input type="text" class="form-control" id="exampleInputName1" name="code"
+                                        placeholder="Name of coupon " required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName2">Discount amount</label>
+                                    <input type="number" class="form-control" id="exampleInputName1" name="discount"
+                                        placeholder="Discount amount " required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName3">Minimum amount to apply Coupon</label>
+                                    <input type="number" class="form-control" id="exampleInputName1"
+                                        name="minimum_amount" placeholder="Minimum amount to apply coupon" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName4">Valid_from</label>
+                                    <input type="datetime-local" class="form-control" id="exampleInputName1"
+                                        name="valid_from" placeholder="Valid from" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName5">Valid_at</label>
+                                    <input type="datetime-local" class="form-control" id="exampleInputName1"
+                                        name="valid_at" placeholder="Valid to " required>
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" style="border-radius: 0;" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" style="border-radius: 0;" class="btn btn-primary">Create</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!----- modal edit coupon ------>
+            {% if coupons %}
+
+            {% for i in coupons %}
+
+            <div class="modal fade" id="staticBackdrop-{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel" style="color: black;">Edit coupon</h5>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                        </div>
+                        <div class="modal-body" style="color: black;">
+
+                            <form action="{% url 'admin_update_coupon' i.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Name of Coupon</label>
+                                    <input type="text" class="form-control" id="exampleInputName1" name="code"
+                                        value="{{i.coupon_code}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName2">Discount amount</label>
+                                    <input type="number" class="form-control" id="exampleInputName1" name="discount"
+                                        value="{{i.discount}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName3">Minimum amount to apply Coupon</label>
+                                    <input type="number" class="form-control" id="exampleInputName1"
+                                        name="minimum_amount" value="{{i.min_amount}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName4">Valid_from</label>
+                                    <input type="datetime-local" class="form-control" id="exampleInputName1"
+                                        name="valid_from" value="{{ i.valid_from|date:'Y-m-d\TH:i' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName5">Valid_at</label>
+                                    <input type="datetime-local" class="form-control" id="exampleInputName1"
+                                        name="valid_at" value="{{ i.valid_at|date:'Y-m-d\TH:i' }}" required>
+                                </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+        {% endblock %}

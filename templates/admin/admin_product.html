@@ -1,0 +1,246 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block title %}dashboard-product{% endblock %}
+{% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <div class="search-field d-none d-xl-block">
+        {% if messages %}
+        {% for message in messages %}
+        <div id="messages" class="alert alert-dismissible">
+          <style>
+            /* Increase the font size and width of the toaster */
+            .jq-toast-wrap {
+              font-size: 25px;
+              /* Adjust the font size as needed */
+              width: 500px;
+              /* Adjust the width as needed */
+            }
+          </style>
+          <script>
+            $.toast({
+              heading: '{{ message.tags }}',
+              text: '{{ message }}',
+              icon: '{{ message.tags }}',
+              loader: true,
+              loaderBg: '#f96868',
+              position: 'top-center',
+              hideAfter: 5000,
+              stack: 6
+            });
+          </script>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form class="d-flex align-items-center h-100" action="#" method="post">
+          {% csrf_token %}
+          <div class="input-group">
+            <div class="input-group-prepend bg-transparent">
+              <i class="input-group-text border-0 mdi mdi-magnify"></i>
+            </div>
+            <input type="text" name="name" class="form-control bg-transparent border-0" placeholder="Search products">
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary" style="margin-right: .5vw;">Search</button>
+          </div>
+          <div>
+            <button class="btn btn-danger" href="{% url 'admin_product'}">
+              <i class="fas fa-times fa-lg"></i></button>
+          </div>
+        </form>
+      </div>
+      <h3 class="page-title"> Products </h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exModal"
+              role="button">Add
+              Product</a></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped" id="sortTable">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th> name </th>
+                    <th> Category </th>
+                    <th> Brand </th>
+                    <th> Selling price</th>
+                    <th> Quantity</th>
+                    <th> Created date </th>
+                    <th> Operations </th>
+                    <th> Available </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if products %}
+
+                  {% for i in products %}
+                  <tr>
+                    <td><img style="width: 5rem;height: 5rem;" src="{{i.image.url}}"></td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.category}}</td>
+                    <!-- <td>{{i.sub_category}}</td> -->
+                    <td>{{i.brand}}</td>
+                    <td>{{i.selling_price}}</td>
+                    <td>{{i.quantity}}</td>
+                    <td>{{i.created_date}}</td>
+                    <td>
+                      <a href="{% url 'admin_edit_product' i.id %}">&nbsp;&nbsp;<i
+                          class="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;Edit
+                      </a>
+                    </td>
+                    {% if i.active %}
+                    <td><a href="" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}">unlist</a>
+                    </td>
+                    {% else %}
+                    <td><a href="" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}">unlisted</a>
+                    </td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- modal lis/unlist -->
+      {% if products %}
+
+      {% for i in products %}
+      <div class="modal fade" id="exampleModal-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <h3>Are you sure ?</h3>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="{% url 'product_active' i.id %}"><button type="button" class="btn btn-danger">Yes</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <!-- list/unlist modal end -->
+
+      <!-- Modal add-product -->
+      <div class="modal fade" style="max-width:120%;" id="exModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">ADD PRODUCT</h5>
+            </div>
+            <div class="modal-body">
+              <form class="forms-sample" method="post" enctype="multipart/form-data"
+                action="{% url 'admin_add_product' %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="exampleInputName1">Name of product</label>
+                      <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail3">Original Price</label>
+                      <input type="number" class="form-control" id="exampleInputEmail3" name="original_price"
+                        placeholder="Original price">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">Selling Price</label>
+                      <input type="number" class="form-control" id="exampleInputPassword4" name="selling_price"
+                        placeholder="Selling Price">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">Quantity</label>
+                      <input type="number" class="form-control" id="exampleInputPassword4" name="quantity"
+                        placeholder="Quantity">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Sub Category</label>
+                      <select class="form-control" name="subcategory" id="exampleSelectGender">
+                        {% for i in sub_categories %}
+                        <option>{{i.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Category</label>
+                      <select class="form-control" name="category" id="exampleSelectGender">
+                        {% if categories %}
+                        {% for i in categories %}
+                        <option>{{i.name}}</option>
+                        {% endfor %}
+                        {% endif %}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Image Upload</label>
+                      <div class="input-group col-xs-12">
+                        <input type="file" class="form-control file-upload-info" name="image" placeholder="Upload Image"
+                          required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Image 1</label>
+                      <div class="input-group col-xs-12">
+                        <input type="file" class="form-control file-upload-info" name="image1"
+                          placeholder="Upload Image" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Image 2</label>
+                      <div class="input-group col-xs-12">
+                        <input type="file" class="form-control file-upload-info" name="image2"
+                          placeholder="Upload Image" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Image 3</label>
+                      <div class="input-group col-xs-12">
+                        <input type="file" class="form-control file-upload-info" name="image3"
+                          placeholder="Upload Image" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputCity1">Brand</label>
+                  <select class="form-control" name="brand" id="exampleSelectGender">
+                    {% if brands %}
+                    {% for i in brands %}
+                    <option>{{i.name}}</option>
+                    {% endfor %}
+                    {% endif %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleTextarea1">Description</label>
+                  <textarea class="form-control" id="exampleTextarea1" name="description" rows="10"
+                    placeholder="Add description here"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock %}
