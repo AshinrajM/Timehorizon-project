@@ -63,7 +63,6 @@ def cart(
         return render(request, "product/cart.html", context)
 
 
-
 @login_required(login_url="signin")
 def coupon_validate(request):
     coupon = 0
@@ -114,6 +113,7 @@ def coupon_validate(request):
                 request.session["coupon"] = coupon.id
                 request.session.save()
                 messages.success(request, "coupon applied")
+                return redirect("cart")
     except Exception as e:
         print(e)
         return redirect("cart")
@@ -264,7 +264,6 @@ def check_out(
         return render(request, "product/checkout.html", context)
 
 
-
 @login_required(login_url="signin")
 def wishlist(request):
     context = {}
@@ -280,8 +279,6 @@ def wishlist(request):
             return render(request, "product/wishlist.html", context)
     else:
         return redirect("signin")
-    
-    
 
 
 @login_required(login_url="signin")
@@ -295,6 +292,7 @@ def add_wishlist(request, product_id):
         wishlist = Wishlist.objects.create(user=user, product=product)
         wishlist.save()
         messages.success(request, "product added to wishlist")
+        return redirect("wishlist")
     except Exception as e:
         print(e)
         return redirect("home")

@@ -404,6 +404,7 @@ def return_order(request, order_id):
 
 
 def success(request, order_number):
+    context = {}
     context = {
         "order_number": order_number,
     }
