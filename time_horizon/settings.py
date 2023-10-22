@@ -86,11 +86,11 @@ WSGI_APPLICATION = "time_horizon.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "timehorizon",
-        "USER": "postgres",
-        "PORT": "5432",
-        "PASSWORD": "123456",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "myproject",
+        "USER": "myprojectuser",
+        "PORT": "",
+        "PASSWORD": "password",
         "HOST": "localhost",
     }
 }
