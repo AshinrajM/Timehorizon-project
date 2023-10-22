@@ -29,7 +29,6 @@
       </div>
     </div>
     <div class="row">
-      {% if profit %}
       <div class="col-md-4">
         <div class="card" style="width:18rem;">
 
@@ -39,8 +38,6 @@
           </div>
         </div>
       </div>
-      {% endif %}
-      {% if income %}
 
       <div class="col-md-4">
         <div class="card" style="width: 18rem;">
@@ -50,8 +47,6 @@
           </div>
         </div>
       </div>
-      {% endif %}
-      {% if successfull %}
 
       <div class="col-md-4">
         <div class="card" style="width: 18rem;">
@@ -61,7 +56,6 @@
           </div>
         </div>
       </div>
-      {% endif %}
 
     </div>
     <div class="d-xl-flex justify-content-between align-items-start mt-4">
@@ -75,7 +69,6 @@
             <div class="row">
               <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
                 <div class="card">
-                  {% if order_count %}
                   <div class="card-body text-center">
                     <h5 class="mb-2 text-dark font-weight-normal">Orders</h5>
                     <h2 class="mb-4 text-dark font-weight-bold">{{ order_count }}</h2>
@@ -86,14 +79,12 @@
                         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
                     </div>
                   </div>
-                  {% endif %}
 
                 </div>
               </div>
 
               <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
                 <div class="card">
-                  {% if user_count %}
 
                   <div class="card-body text-center">
                     <h5 class="mb-2 text-dark font-weight-normal">Total Users</h5>
@@ -105,14 +96,12 @@
                         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
                     </div>
                   </div>
-                  {% endif %}
 
                 </div>
               </div>
 
               <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
                 <div class="card">
-                  {% if categories %}
                     
                   <div class="card-body text-center">
                     <h5 class="mb-2 text-dark font-weight-normal">Categories</h5>
@@ -124,14 +113,12 @@
                         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
                     </div>
                   </div>
-                  {% endif %}
 
                 </div>
               </div>
 
               <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
                 <div class="card">
-                  {% if product_count %}
                   <div class="card-body text-center">
                     <h5 class="mb-2 text-dark font-weight-normal">Total Products</h5>
                     <h2 class="mb-4 text-dark font-weight-bold">{{ product_count }}</h2>
@@ -142,7 +129,6 @@
                         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
                     </div>
                   </div>
-                  {% endif %}
                 </div>
               </div>
             </div>
@@ -160,7 +146,6 @@
                         </div>
                       </div>
                       <div class="col-lg-3 col-sm-4 grid-margin  grid-margin-lg-0">
-                        {% if profit %}
 
                         <div class="wrapper pb-5 border-bottom">
                             
@@ -171,8 +156,6 @@
                           <h3 class="mb-0 text-dark font-weight-bold">₹ {{profit}}</h3>
                           <!-- <canvas id="total-profit"></canvas> -->
                         </div>
-                        {% endif %}
-                        {% if income %}
                           
                         <div class="wrapper pt-5">
                           <div class="text-wrapper d-flex align-items-center justify-content-between mb-2">
@@ -182,7 +165,6 @@
                           <h3 class="mb-4 text-dark font-weight-bold">₹ {{income}}</h3>
                           <!-- <canvas id="total-expences"></canvas> -->
                         </div>
-                        {% endif %}
 
                       </div>
                       <div class="col-lg-9 col-sm-8 grid-margin  grid-margin-lg-0">
@@ -206,19 +188,15 @@
                 <div class="card card-danger-gradient">
                   <div class="card-body mb-4">
                     <h4 class="card-title text-white">Account Retention</h4>
-                    {% if income %}
                       
                     <div class="mt-4 mb-4">
                       <h4>Conversion</h4>
                       <h5 class="text-dark font-weight-bold mb-3">₹{{income}}</h5>
                     </div>
-                    {% endif %}
-                    {% if refund %}
                     <div class="mt-4 mb-4">
                       <h4>Cancellation</h4>
                       <h5 class="text-dark font-weight-bold">₹{{refund}}</h5>
                     </div>
-                    {% endif %}
                     <div class="row mt-4">
                       <form action="" method="post">
                         {% csrf_token %}
@@ -284,7 +262,6 @@
             </div>
           </div>
         </div>
-        {% if orders_in_orange %}
         <div class="row">
           <div class="col-md-12 mb-4">
             <table class="table table-bordered mb-4">
@@ -324,7 +301,6 @@
             </table>
           </div>
         </div>
-        {% endif %}
         <hr>
       </div>
     </div>

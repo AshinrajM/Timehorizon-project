@@ -49,7 +49,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
-    
+
     <style>
         a {
             text-decoration: none;
@@ -80,10 +80,17 @@
             <a href="./index.html"><img src="img/logo.png" alt=""></a>
         </div> -->
         <div id="mobile-menu-wrap"></div>
+        {% if user.is_authenticated %}
         <div class="offcanvas__auth">
-            <a href="#">Login &nbsp;</a>
-            <a href="#">Register &nbsp;</a>
+            <a href="{% url 'profile'  %}">{{user.first_name}} &nbsp;</a>
+            <a href="{% url 'register'  %}">LOG OUT &nbsp;</a>
         </div>
+        {% else %}
+        <div class="offcanvas__auth">
+            <a href="{% url 'signin'  %}">LOG IN &nbsp;</a>
+            <a href="{% url 'register'  %}">REGISTER &nbsp;</a>
+        </div>
+        {% endif %}
     </div>
     <!-- Offcanvas Menu End -->
 
