@@ -1,3 +1,6 @@
+
+
+
 asgiref==3.7.2
 certifi==2023.7.22
 charset-normalizer==3.2.0
@@ -19,4 +22,5 @@ typing_extensions==4.7.1
 tzdata==2023.3
 urllib3==2.0.4
 virtualenv==20.23.1
+xhtml2pdf==0.2.5
 yarg==0.1.9
